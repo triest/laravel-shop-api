@@ -14,10 +14,9 @@ class CartService
 
     public function addProduct(Product $product,$count){
 
-        $cartProduct = CartProduct::select(['*'])->where('cart_id', '=', $this->cart->id)->where(
+        $cartProduct = CartProduct::select(['*'])->where('cart_id', $this->cart->id)->where(
                 'product_id',
-                '=',
-                $product
+                $product->id
         )->first();
 
 
@@ -29,7 +28,7 @@ class CartService
             )->first();
         }
 
-        $cartProduct->count += $count;
+        $cartProduct->count = $count;
         $cartProduct->save();
 
         return true;
