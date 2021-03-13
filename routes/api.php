@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Http\Request;
@@ -31,13 +32,22 @@ Route::middleware(['auth:api'])->group(
                     }
             );
 
-            Route::get('/categorise',[CategoryController::class,'getCategoriesTree']); //дерепо категорий
+            Route::get('/categorise', [CategoryController::class, 'getCategoriesTree']); //дерепо категорий
 
-                Route::prefix('product')->group(function () {
-                    Route::get('/filter', [ProductController::class, 'filter']); //дерепо категорий
-                    Route::get('/{slug}',[ProductController::class,'slug']);
-                });
+            Route::prefix('product')->group(
+                    function () {
+                        Route::get('/filter', [ProductController::class, 'filter']); //дерепо категорий
+                        Route::get('/{slug}', [ProductController::class, 'slug']);
+                    }
+            );
 
+
+            Route::prefix('/cart')->group(
+
+                    function (){
+                        Route::post('/add_product',[CartController::class,'addProduct']);
+                    }
+            );
 
         }
 );
