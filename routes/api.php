@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -30,7 +31,14 @@ Route::middleware(['auth:api'])->group(
                     }
             );
 
-            Route::get('/categorise',[CategoryController::class,'getCategoriesTree']);
+            Route::get('/categorise',[CategoryController::class,'getCategoriesTree']); //дерепо категорий
+
+                Route::prefix('product')->group(function () {
+                    Route::get('/filter', [ProductController::class, 'filter']); //дерепо категорий
+                    Route::get('/{slug}',[ProductController::class,'slug']);
+                });
+
+
         }
 );
 
