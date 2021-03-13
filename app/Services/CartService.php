@@ -33,4 +33,17 @@ class CartService
 
         return true;
     }
+
+    public function deleteProduct(Product $product)
+    {
+        $cartProduct = CartProduct::select(['*'])->where('cart_id', $this->cart->id)->where(
+                'product_id',
+                $product->id
+        )->first();
+        if (!$cartProduct) {
+            return "cart product not found";
+        }
+        $cartProduct->delete();
+        return true;
+    }
 }
