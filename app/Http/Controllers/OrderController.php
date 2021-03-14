@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Cart;
 use App\Models\CartProduct;
 use App\Models\Order;
-use App\Models\OrderProduct;
-use App\Models\Product;
+use App\Services\OrderService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,9 +12,15 @@ class OrderController extends Controller
 {
     public function index(){
 
-        $cart=Cart::get();
+        $user=Auth::user();
 
-        return response()->json($cart);
+        if(!$user){
+            return response()->json([])->setStatusCode(403);
+        }
+
+        $orders=$user->order()->get();
+
+        return response()->json($orders);
     }
 
 
@@ -54,39 +58,12 @@ class OrderController extends Controller
                 return response()->json(['result'=>false,'message'=>'Product cars is empty'])->setStatusCode(422);
             }
 
+            $orderService=new OrderService($product_cards,$name,$phone);
+            $order=$orderService->makeOrder();
 
-            $order=new Order();
-            $order->name=$name;
-            $order->phone=$phone;
-
-            $message='';
-
-            if(!$order->phone){
-               $message.='Phone not found.';
+            if(!$order instanceof Order){
+                return response()->json(['result'=>false,'message'=>$order])->setStatusCode(422);
             }
-
-           if(!$order->name){
-               $message.='Name not found.';
-           }
-
-            if($message!=''){
-                return response()->json(['result'=>false,'message'=>$message])->setStatusCode(422);
-            }
-
-            $order->save();
-
-
-            //добавляем к заказу ис Cart_product
-            foreach ($product_cards as $product_card){
-                $product_order=new OrderProduct();
-                $product=Product::select(['*'])->where('id',$product_card->product_id)->first();
-
-                $product_order->order()->associate($order);
-                $product_order->product()->associate($product);
-                $product_order->save();
-            }
-
-            $order=Order::select(['*'])->with('orderProduct')->where('id',$order->id)->first();
 
             return response()->json($order);
     }

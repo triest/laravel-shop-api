@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\RequestProductFilter;
 use App\Models\Product;
 use App\Services\ProductService;
-use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
@@ -22,7 +21,6 @@ class ProductController extends Controller
 
 
     public function filter(RequestProductFilter $request){
-  //      dump($request);
         $this->productService->price_max=$request->price_max;
         $this->productService->price_min=$request->price_min;
         $this->productService->category_id_array=$request->category_id;
