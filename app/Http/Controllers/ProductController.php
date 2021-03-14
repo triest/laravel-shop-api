@@ -21,9 +21,16 @@ class ProductController extends Controller
 
 
     public function filter(RequestProductFilter $request){
+
+       // dump($request->characteristic);
+        $characteristic=$request->characteristic;
+
+
+
         $this->productService->price_max=$request->price_max;
         $this->productService->price_min=$request->price_min;
         $this->productService->category_id_array=$request->category_id;
+        $this->productService->characteristic_array=$request->characteristic;
 
         $filtered_products=$this->productService->filter();
 
