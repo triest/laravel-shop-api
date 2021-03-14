@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\FilterPriceRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class RequestProductFilter extends FormRequest
@@ -24,10 +25,10 @@ class RequestProductFilter extends FormRequest
     public function rules()
     {
         return [
-            //
-            'category_id'=>'exists:App\Models\Category,id',
-            'price_min'=>'numeric|min:0',
-            'price_max'=>'numeric|max:price_min'
+                "category_id" => "array",
+                "name.*" => "required|exists:App\Models\Category,id",
+                'price_min' => [new FilterPriceRule($this)],
+                'price_max' => 'numeric|min:0'
         ];
     }
 }

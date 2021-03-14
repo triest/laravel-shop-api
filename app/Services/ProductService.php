@@ -20,6 +20,10 @@ class ProductService
         if($this->price_max){
             $products->where('price','<=',$this->price_max);
         }
+        /*
+         *
+         * */
+
 
         if(!empty($this->category_id_array)){
             $products->whereIn('category_id', $this->category_id_array);

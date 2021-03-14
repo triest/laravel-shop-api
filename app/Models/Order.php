@@ -10,10 +10,20 @@ class Order extends Model
     use HasFactory;
 
     public function product(){
-        return $this->morphToMany(Product::class, 'order_product');
+        return $this->hasOne(Product::class, 'product_id','id');
+    }
+
+    public function orderProduct(){
+        return $this->hasMany(OrderProduct::class,'order_id','id');
     }
 
     public function contactInformationType(){
         return $this->hasMany(ContactInformation::class);
     }
+
+    public function informationType(){
+        return $this->hasOne(InformationType::class);
+    }
+
+
 }

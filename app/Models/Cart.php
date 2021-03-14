@@ -10,6 +10,8 @@ class Cart extends Model
 {
     use HasFactory;
 
+    protected $hidden=['cookie'];
+
     public function user(){
         return $this->belongsTo(User::class);
     }
@@ -20,6 +22,7 @@ class Cart extends Model
 
     public static function get(){
         if($user=Auth::user()){
+
             $cart=$user->cart()->first();
             if(!$cart){
                 $cart=new Cart();
@@ -29,12 +32,14 @@ class Cart extends Model
         }else{
             if (!isset($_COOKIE["cart_cookie"])) {
                 $_COOKIE["cart_cookie"] = Cart::randomString(64);
+             //   dump($_COOKIE['cart_cookie']);
                 $cart=Cart::generateCart($_COOKIE["cart_cookie"]);
             }else{
                 $cookie = $_COOKIE["cart_cookie"];
                 $cart = Cart::select(['*'])
                         ->where("cookie", "=", $cookie)
                         ->orderBy('created_at', 'desc')
+                        ->with('product')
                         ->first();
                 if(!$cart){
                     $_COOKIE["cart_cookie"] = Cart::randomString(64);

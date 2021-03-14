@@ -24,7 +24,7 @@ class ProductController extends Controller
     public function filter(RequestProductFilter $request){
   //      dump($request);
         $this->productService->price_max=$request->price_max;
-        $this->productService->price_mix=$request->price_mix;
+        $this->productService->price_min=$request->price_min;
         $this->productService->category_id_array=$request->category_id;
 
         $filtered_products=$this->productService->filter();
