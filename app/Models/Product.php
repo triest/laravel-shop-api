@@ -24,6 +24,6 @@ class Product extends Model
     }
 
     public function characteristicType(){
-        return $this->belongsTo(Characteristic::class,'id','product_id')->with('type');
+        return $this->hasMany(Characteristic::class,'product_id','id')->with('type');
     }
 }
