@@ -16,7 +16,7 @@ class CreateCharacteristicsTable extends Migration
         Schema::create('characteristics', function (Blueprint $table) {
             $table->id();
             $table->integer('product_id')->nullable()->default(null);
-            $table->string('value')->nullable()->default(null);
+            $table->float('value',255,2)->nullable()->default(null);
             $table->integer('type_id')->nullable()->default(null);
             $table->timestamps();
         });

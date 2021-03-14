@@ -34,12 +34,14 @@ class ProductService
              if(count($rez)!=3){
                  continue;
              }
+             $val=floatval($rez[2]);
+            if($val==false){
+                continue;
+            }
 
-
-
-             $products->whereHas('characteristic',function ($query) use ($rez){
+             $products->whereHas('characteristic',function ($query) use ($rez,$val){
                  $query->where('characteristics.type_id','=',$rez[0]);
-                 $query->where('characteristics.value',$rez[1],intval($rez[2]));
+                 $query->where('characteristics.value',$rez[1],floatval($val));
              });
          }
 
