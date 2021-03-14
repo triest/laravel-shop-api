@@ -29,6 +29,6 @@ class ProductService
             $products->whereIn('category_id', $this->category_id_array);
         }
 
-        return $products->with('category','characteristicType')->get();
+        return $products->with('categoryParent')->get();
     }
 }

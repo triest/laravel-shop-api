@@ -15,6 +15,10 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function categoryParent(){
+        return $this->belongsTo(Category::class,'id','parent_id')->with('parentTree');
+    }
+
     public function orders(){
         return $this->morphToMany(Order::class, 'order_product');
     }

@@ -23,6 +23,11 @@ class Category extends Model
         return $this->hasMany(Category::class, 'parent_id','id');
     }
 
+    public function parentTree()
+    {
+        return $this->parent()->with('parent');
+    }
+
     public function childrenTree()
     {
         return $this->children()->with('children');
