@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Characteristic;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,9 +14,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call([
-                        //    CategorySeeder::class,
-            ProductSeeder::class
-                    ]);
+        $this->call(
+                [
+                        CharacteristicType::class,
+                        CharacteristicSeeder::class,
+                    //    CategorySeeder::class,
+                        ProductSeeder::class
+                ]
+        );
     }
 }

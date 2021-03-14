@@ -40,7 +40,6 @@ class ProductFactory extends Factory
             'slug'=>null,
             'price'=>$this->faker->numberBetween(0,10000),
             'category_id'=>$temp_id,
-
         ];
     }
 }

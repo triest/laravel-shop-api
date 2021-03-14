@@ -18,4 +18,12 @@ class Product extends Model
     public function orders(){
         return $this->morphToMany(Order::class, 'order_product');
     }
+
+    public function characteristic(){
+        return $this->belongsTo(Characteristic::class,'id','product_id');
+    }
+
+    public function characteristicType(){
+        return $this->belongsTo(Characteristic::class,'id','product_id')->with('type');
+    }
 }
