@@ -60,18 +60,14 @@ Route::get('/categorise', [CategoryController::class, 'getCategoriesTree']); //�
 
 Route::prefix('/cart')->group(
         function (){
-            /*  Route::post('/product/add',[CartController::class,'addProduct']);
-              Route::post('/product/delete',[CartController::class,'deleteProduct']);
-              Route::get('/products',[CartController::class,'getProducts']);*/
-            Route::apiResource('product',CartController::class)->only('index','destroy','store');
-            //   Route::post('/order/create',[OrderController::class,'createOrder']); //создать заказ
-            Route::apiResource('orders',OrderController::class)->only('store','index')->middleware(['auth:api']);
+                 Route::apiResource('product',CartController::class)->only('index','destroy','store');
+                 Route::apiResource('orders', OrderController::class)->only('store','index')->middleware(['auth:api']);
         }
 );
 
 Route::prefix('product')->group(
         function () {
-            Route::get('/filter', [ProductController::class, 'filter']); //дерепо категорий
+            Route::get('/filter', [ProductController::class, 'filter']); //дерево категорий
             Route::get('/{slug}', [ProductController::class, 'slug']);
         }
 );
