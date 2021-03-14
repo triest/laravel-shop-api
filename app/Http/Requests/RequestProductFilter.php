@@ -28,7 +28,8 @@ class RequestProductFilter extends FormRequest
                 "category_id" => "array",
                 "name.*" => "required|exists:App\Models\Category,id",
                 'price_min' => [new FilterPriceRule($this)],
-                'price_max' => 'numeric|min:0'
+                'price_max' => 'numeric|min:0',
+                'characteristic'=>'array'
         ];
     }
 }
