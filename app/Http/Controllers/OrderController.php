@@ -18,7 +18,7 @@ class OrderController extends Controller
             return response()->json([])->setStatusCode(403);
         }
 
-        $orders=$user->order()->get();
+        $orders=$user->order()->with('status')->get();
 
         return response()->json($orders);
     }

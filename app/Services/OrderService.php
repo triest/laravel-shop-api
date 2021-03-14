@@ -53,6 +53,8 @@ class OrderService
         if($user=Auth::user()){
             $order->user()->associate($user);
         }
+        $order->status_id=1;
+
         $order->save();
 
         //добавляем к заказу ис Cart_product
@@ -69,6 +71,9 @@ class OrderService
              * */
         }
 
+
+
         $order=Order::select(['*'])->with('orderProduct')->where('id',$order->id)->first();
+        return $order;
     }
 }
