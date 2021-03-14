@@ -20,10 +20,18 @@ class Cart extends Model
         return $this->belongsToMany(Product::class);
     }
 
+    public function cartProduct(){
+        return $this->hasMany(CartProduct::class,'cart_id','id');
+    }
+
+    public function cartProductWithProduct(){
+        return $this->hasMany(CartProduct::class,'cart_id','id')->with('product');
+    }
+
     public static function get(){
         if($user=Auth::user()){
 
-            $cart=$user->cart()->first();
+            $cart=$user->cart()->with('cartProductWithProduct')->first();
             if(!$cart){
                 $cart=new Cart();
                 $cart->user()->associate($user);
@@ -32,14 +40,13 @@ class Cart extends Model
         }else{
             if (!isset($_COOKIE["cart_cookie"])) {
                 $_COOKIE["cart_cookie"] = Cart::randomString(64);
-             //   dump($_COOKIE['cart_cookie']);
                 $cart=Cart::generateCart($_COOKIE["cart_cookie"]);
             }else{
                 $cookie = $_COOKIE["cart_cookie"];
                 $cart = Cart::select(['*'])
                         ->where("cookie", "=", $cookie)
                         ->orderBy('created_at', 'desc')
-                        ->with('product')
+                        ->with('cartProductWithProduct')
                         ->first();
                 if(!$cart){
                     $_COOKIE["cart_cookie"] = Cart::randomString(64);
@@ -72,7 +79,5 @@ class Cart extends Model
         return $str;
     }
 
-    public function addProduct(Product $product){
 
-    }
 }

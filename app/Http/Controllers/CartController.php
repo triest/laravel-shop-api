@@ -16,8 +16,6 @@ class CartController extends Controller
 
 
 
-    //
-
     /**
      * CartController constructor.
      * @param null $cartService
@@ -33,9 +31,7 @@ class CartController extends Controller
             return response([], 204)->json(['result' => false, 'message' => 'cart not found']);
         }
 
-        $product=$cart->product()->get();
-
-        return response()->json(['result' => $product]);
+        return response()->json(['result' => $cart]);
     }
 
     public function store(RequestAddProductToCart $request)
